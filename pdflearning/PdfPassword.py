@@ -15,17 +15,23 @@ def create_password_protected_pdf(filename, password):
     # Encrypt the PDF with the provided password
     pdf_writer.encrypt(user_password=password, owner_password=None, use_128bit=True)
 
-    
+    with open(filename, 'wb') as f:
+        pdf_writer.write(f)
+
 # Function to crack the password based on the provided pattern
 def crack_password(filename):
     # Define the pattern to generate passwords
     for day in range(1, 32):
         for month in range(1, 13):
             for year in range(1900, 2100):
+
                 # Format the password as ddmmyyyy
+
                 password = f"{day:02d}{month:02d}{year}"
                 try:
+                    
                     # Attempt to open the PDF with the generated password
+
                     with open(filename, 'rb') as f:
                         pdf_reader = PyPDF2.PdfReader(f)
                         # Try to decrypt with the password
